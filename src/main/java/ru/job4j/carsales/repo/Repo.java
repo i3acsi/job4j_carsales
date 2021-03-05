@@ -109,8 +109,8 @@ public class Repo {
 
     public static void main(String[] args) {
         Repo repo = new Repo();
-        List<ModelDto> models = repo.findModelsByMarkId(Long.parseLong("97"));
-        models.forEach(System.out::println);
-
+        List<Announcement> announcements = repo
+                .findAllAnnouncements(0L, 0L, false, true);
+        announcements.forEach(System.out::println);
     }
 }

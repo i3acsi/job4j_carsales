@@ -26,7 +26,7 @@ class AnnouncementRepo {
     @SuppressWarnings("unchecked")
     List<Announcement> findAllAnnouncements(Long markId, Long modelId, boolean freshAd, boolean withPhotos) {
         return store.tx(session -> {
-            String sql = "select distinct a from Announcement a join fetch a.photos ";
+            String sql = "select distinct a from Announcement a left join fetch a.photos ";
             StringJoiner joiner = new StringJoiner(" and ");
             if (modelId != null && modelId > 0L) {
                 joiner.add("a.car.model.id = :moId");
@@ -35,11 +35,8 @@ class AnnouncementRepo {
             }
             if (freshAd)
                 joiner.add("a.created > : date");
-            if (withPhotos) {
+            if (withPhotos)
                 joiner.add("size(a.photos) > 0");
-            } else {
-                joiner.add("size(a.photos) = 0");
-            }
             String filter = joiner.toString();
             if (!filter.isEmpty()) {
                 sql += " where " + filter;

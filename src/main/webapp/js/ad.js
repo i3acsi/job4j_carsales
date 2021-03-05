@@ -32,6 +32,7 @@ function loadAds(callback) {
 }
 
 function loadAdSimple(json) {
+    console.log(json)
     let table = ''
     for (let k in json) {
         let adId = json[k]['id']
@@ -41,7 +42,12 @@ function loadAdSimple(json) {
         let created = json[k]['car']['created']
         let location = json[k]['location']
         let price = json[k]['price']
-        let photo = json[k]['photos'][0]
+        let photo = json[k]['photos']
+        if (photo.length > 0) {
+            photo = photo[0]
+        } else {
+            photo = 'img/car.png'
+        }
         table += '<tr class="pointer" onclick="watchAd(' + adId + ')">\n<th scope="row">' + k + '</th>\n' +
             '<td>' + markName + '</td>\n<td>' + modelName + '</td>\n<td>' + created + '</td>\n' +
             '<td>' + price + '</td>\n<td>\n<img src=\"' + photo + '\" class=\"img-fluid\" style=\"max-height: 100px; width: auto; display: inline-block\">'
