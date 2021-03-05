@@ -1,0 +1,128 @@
+100NX
+180SX
+200SX
+240SX
+300ZX
+350Z
+370Z
+AD
+Almera
+Almera Classic
+Altima
+Ariya
+Armada
+Auster
+Avenir
+Avenir Salut
+Bassara
+BE-1
+Bluebird
+Bluebird Maxima
+Bluebird Sylphy
+Caravan
+Caravan Elgrand
+Cedric
+Cedric Cima
+Cefiro
+Cherry
+Cima
+Clipper
+Crew
+Cube
+Cube Cubic
+Datsun
+DAYZ
+DAYZ Roox
+Dualis
+e-NV200
+Elgrand
+Exa
+Expert
+Fairlady Z
+Figaro
+Frontier
+Fuga
+Gloria
+Gloria Cima
+GT-R
+Homy
+Homy Elgrand
+Hypermini
+Juke
+Kicks
+Kix
+Lafesta
+Langley
+Largo
+Latio
+Laurel
+Leaf
+Leopard
+Liberty
+Lucino
+March
+March Box
+Maxima
+Micra
+Micra C+C
+Mistral
+Moco
+Murano
+Navara
+Note
+NP300
+NV100 Clipper
+NV200
+NV350 Caravan
+NX-Coupe
+Otti
+Pao
+Pathfinder
+Patrol
+Pino
+Pixo
+Prairie
+Prairie Joy
+Presage
+Presea
+President
+Primera
+Primera Camino
+Pulsar
+Qashqai
+Qashqai+2
+Quest
+R'nessa
+Rasheen
+Rogue
+Roox
+S-Cargo
+Safari
+Sentra
+Serena
+Silvia
+Skyline
+Skyline Crossover
+Skyline GT-R
+Stagea
+Stanza
+Sunny
+Sunny California
+Sunny RZ-1
+Sylphy
+Teana
+Terrano
+Terrano II
+Terrano Regulus
+Tiida
+Tiida Latio
+Tino
+Titan
+Urvan
+Vanette Serena
+Versa
+Violet
+Volkswagen Santana
+Wingroad
+X-Trail
+Xterra
