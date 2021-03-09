@@ -112,7 +112,6 @@
 <script src="js/ad.js"></script>
 <script>
     $(document).ready(function () {
-        // loadMarks()
         loadAds(loadMarks())
     })
 

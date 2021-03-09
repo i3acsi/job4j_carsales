@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.carsales.dto.ModelDto;
 import ru.job4j.carsales.model.*;
+import ru.job4j.carsales.repo.Filter;
 import ru.job4j.carsales.repo.Repo;
 import ru.job4j.carsales.service.PhotoService;
 
@@ -43,11 +44,18 @@ public class CarServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Filter filter = new Filter();
+
         Long markId = Long.parseLong(req.getParameter("markId"));
         Long modelId = Long.parseLong(req.getParameter("modelId"));
         Boolean freshAd = Boolean.parseBoolean(req.getParameter("freshAd"));
         Boolean withPhotos = Boolean.parseBoolean(req.getParameter("withPhotos"));
-        List<Announcement> list = repo.findAllAnnouncements(markId, modelId, freshAd, withPhotos);
+        filter.setMarkId(markId);
+        filter.setModelId(modelId);
+        filter.setFreshAd(freshAd);
+        filter.setWithPhotos(withPhotos);
+        List<Announcement> list = repo.findAllAnnouncements(filter);
+
         String json = mapper.writeValueAsString(list);
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("json");

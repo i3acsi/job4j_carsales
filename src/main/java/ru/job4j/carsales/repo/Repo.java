@@ -38,8 +38,8 @@ public class Repo {
         return accountRepo.findAccountByEmail(email);
     }
 
-    public List<Announcement> findAllAnnouncements(Long markId, Long modelId, Boolean freshAd, Boolean withPhotos) {
-        return announcementRepo.findAllAnnouncements(markId, modelId, freshAd, withPhotos);
+    public List<Announcement> findAllAnnouncements(Filter filter) {
+        return announcementRepo.findAllAnnouncements(filter);
     }
 
     public ModelDto findModelDtoById(Long modelId) {
@@ -107,10 +107,4 @@ public class Repo {
         return markRepo.findMarkById(markId);
     }
 
-    public static void main(String[] args) {
-        Repo repo = new Repo();
-        List<Announcement> announcements = repo
-                .findAllAnnouncements(0L, 0L, false, true);
-        announcements.forEach(System.out::println);
-    }
 }

@@ -7,51 +7,19 @@ import org.slf4j.LoggerFactory;
 import ru.job4j.carsales.model.Announcement;
 import ru.job4j.carsales.model.Car;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
-import java.util.StringJoiner;
 
 @RequiredArgsConstructor(staticName = "of")
 class AnnouncementRepo {
     private static final Logger log = LoggerFactory.getLogger(AnnouncementRepo.class);
     private final Store store;
 
-    private Date yesterday() {
-        LocalDate yesterday = LocalDate.now().minusDays(1L);
-        return Date.from(yesterday.atStartOfDay(ZoneId.systemDefault()).toInstant());
-    }
-
     @SuppressWarnings("unchecked")
-    List<Announcement> findAllAnnouncements(Long markId, Long modelId, boolean freshAd, boolean withPhotos) {
+    List<Announcement> findAllAnnouncements(Filter filter) {
         return store.tx(session -> {
-            String sql = "select distinct a from Announcement a left join fetch a.photos ";
-            StringJoiner joiner = new StringJoiner(" and ");
-            if (modelId != null && modelId > 0L) {
-                joiner.add("a.car.model.id = :moId");
-            } else if (markId != null && markId > 0L) {
-                joiner.add("a.car.model.mark.id = :mId");
-            }
-            if (freshAd)
-                joiner.add("a.created > : date");
-            if (withPhotos)
-                joiner.add("size(a.photos) > 0");
-            String filter = joiner.toString();
-            if (!filter.isEmpty()) {
-                sql += " where " + filter;
-            }
-            Query query = session.createQuery(sql);
-            if (modelId != null && modelId > 0L) {
-                query.setParameter("moId", modelId);
-            } else if (markId != null && markId > 0L) {
-                query.setParameter("mId", markId);
-            }
-            if (freshAd) {
-                Date date = yesterday();
-                query.setParameter("date", date);
-            }
-            log.info(query.toString());
+            Query query = session.createQuery(filter.doFilter());
+            filter.getParametersSet().forEach(query::setParameter);
+            log.info(query.getQueryString());
             return query.list();
         });
     }
