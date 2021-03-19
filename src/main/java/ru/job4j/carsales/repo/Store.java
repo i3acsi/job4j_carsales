@@ -99,4 +99,5 @@ class Store {
             return entity;
         });
     }
+
 }

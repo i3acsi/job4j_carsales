@@ -1,8 +1,6 @@
 package ru.job4j.carsales.servlet;
 
 import ru.job4j.carsales.model.Account;
-import ru.job4j.carsales.model.Role;
-import ru.job4j.carsales.service.AuthService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +16,11 @@ public class GreetingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         Account account = (Account) session.getAttribute("user");
+        String role = (String) session.getAttribute("role");
         if (account != null) {
             req.setAttribute("user", account.getName());
-            if (AuthService.isAdmin(account)) {
-                req.setAttribute("role", "ADMIN");
+            if (role != null) {
+                req.setAttribute("role", role);
             }
         }
         req.getRequestDispatcher("/index.jsp").forward(req, resp);

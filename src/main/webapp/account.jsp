@@ -30,7 +30,7 @@
 
     <div class="container mx-auto p-2 bg-secondary">
         <div class="row">
-            <div class="form-group col-sm">
+            <div class="form-group col">
                 <div class="input__wrapper">
                     <img src="img/userpic.png" id="userpic" class="img-fluid rounded" width="200" height="200"
                          alt="img/userpic.png">
@@ -40,8 +40,23 @@
                     <label for="photo" class="btn btn-dark btn-outline-success mt-2">Выберете фото профиля
                     </label>
                 </div>
+                <h5 class="shadowtext">Мои объявления</h5>
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Модель</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Фото</th>
+                        <th scope="col">Статус</th>
+                    </tr>
+                    </thead>
+                    <tbody id="myAdList">
+
+                    </tbody>
+                </table>
             </div>
-            <div class="col-sm">
+            <div class="col-4">
                 <form>
                     <input type="text" id="id" hidden>
                     <div class="input-group mb-3">
@@ -80,7 +95,7 @@
                         <input type="password" class="form-control" id="pwd">
                     </div>
                     <div class="mb-3">
-                        <button class="btn btn-dark btn-outline-success mt-2 pull-right" onclick="saveDataToAccount()">Сохранить
+                        <button class="btn btn-dark btn-outline-success mt-2 pull-right" onclick="saveDataToAccount(true)">Сохранить
                             данные
                         </button>
                     </div>
@@ -91,6 +106,7 @@
 </div>
 <script src="js/hint.js"></script>
 <script src="js/validate.js"></script>
+<script src="js/ad.js"></script>
 <script src="js/account.js"></script>
 <script>
     $(document).ready(function () {

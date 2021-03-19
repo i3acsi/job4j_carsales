@@ -10,4 +10,10 @@ class CarRepo {
     Car createOrGet(Car car) {
         return store.findOrCreate(Car.class, car, "car_vin", car.getVin());
     }
+
+    Car findById(Long id){
+        return store.tx(session ->
+            session.get(Car.class, id)
+        );
+    }
 }

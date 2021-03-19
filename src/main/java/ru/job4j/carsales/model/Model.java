@@ -10,13 +10,12 @@ import java.util.Set;
         uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "mark_id"})})
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode()
+@EqualsAndHashCode(of = {"name", "mark"})
 @RequiredArgsConstructor(staticName = "of")
 @ToString(of = {"id", "name", "mark", "engines"})
 public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
     @Column(name = "model_id")
     private Long id;
     @NonNull

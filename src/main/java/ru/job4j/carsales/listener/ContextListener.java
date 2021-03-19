@@ -13,5 +13,8 @@ public class ContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         sce.getServletContext().setAttribute("repo", new Repo());
         sce.getServletContext().setAttribute("mapper", new ObjectMapper());
+        String imgDir = sce.getServletContext().getRealPath("/img");
+        sce.getServletContext().setAttribute("imgDir", imgDir);
+
     }
 }

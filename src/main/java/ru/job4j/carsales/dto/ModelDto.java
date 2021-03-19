@@ -1,6 +1,5 @@
 package ru.job4j.carsales.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import ru.job4j.carsales.model.Mark;
 
@@ -16,14 +15,15 @@ import javax.persistence.*;
 public class ModelDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
     @Column(name = "model_id")
     private Long id;
     @NonNull
+    @EqualsAndHashCode.Include
     private String name;
 
     @NonNull
     @ManyToOne
+    @EqualsAndHashCode.Include
     @JoinColumn(name = "mark_id")
     private Mark mark;
 }

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "j_account")
@@ -33,9 +31,6 @@ public class Account {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-dd HH:mm:ss", timezone = "Asia/Novosibirsk")
     private Date updated = new Date(System.currentTimeMillis());
 
-//    @OneToMany(mappedBy = "account")
-//    private List<Announcement> announcements = new ArrayList<>();
-
     @NonNull
     private String name;
 
@@ -51,4 +46,19 @@ public class Account {
     private Long telephone;
     private String userPic;
     private String location;
+
+    public static Account copy(Account account){
+        Account result = new Account();
+        result.setId(account.getId());
+        result.setRole(account.getRole());
+        result.setCreated(account.getCreated());
+        result.setUpdated(account.getUpdated());
+        result.setName(account.getName());
+        result.setEmail(account.getEmail());
+        result.setPassword(account.getPassword());
+        result.setTelephone(account.getTelephone());
+        result.setUserPic(account.getUserPic());
+        result.setLocation(account.getLocation());
+        return result;
+    }
 }

@@ -1,7 +1,9 @@
 package ru.job4j.carsales.repo;
 
+import ru.job4j.carsales.dto.AnnouncementDto;
 import ru.job4j.carsales.dto.ModelDto;
 import ru.job4j.carsales.model.*;
+import ru.job4j.carsales.repo.filter.AdFilter;
 
 import java.util.List;
 import java.util.Set;
@@ -38,8 +40,20 @@ public class Repo {
         return accountRepo.findAccountByEmail(email);
     }
 
-    public List<Announcement> findAllAnnouncements(Filter filter) {
+    public Account findAccountById(Long id) {
+        return accountRepo.findAccountById(id);
+    }
+
+    public List<AnnouncementDto> findAllAnnouncements(AdFilter filter) {
         return announcementRepo.findAllAnnouncements(filter);
+    }
+
+    public List<AnnouncementDto> findAnnouncementsOfAccount(Long accountId) {
+        return announcementRepo.findAnnouncementsOfAccount(accountId);
+    }
+
+    public AnnouncementDto findAnnouncementById(Long id) {
+        return announcementRepo.findAnnouncementById(id);
     }
 
     public ModelDto findModelDtoById(Long modelId) {
@@ -107,4 +121,7 @@ public class Repo {
         return markRepo.findMarkById(markId);
     }
 
+    public boolean tryCloseAd(Long accountId, Long announcementId) {
+        return announcementRepo.tryCloseAd(accountId, announcementId);
+    }
 }

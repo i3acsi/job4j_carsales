@@ -1,3 +1,5 @@
+<%@ page import="ru.job4j.carsales.service.AuthService" %>
+<%@ page import="ru.job4j.carsales.model.Account" %>
 <%@page language="java" contentType="text/html; charset=UTF-8"
         pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -17,8 +19,7 @@
 </head>
 <body>
 <%
-    String user = (String) request.getAttribute("user");
-    String role = (String) request.getAttribute("role");
+    Account account = AuthService.getLoggedInAccount(request);
 %>
 <div class="container ">
     <nav class="navbar navbar-fixed-top navbar-dark boarded" style="background-color:  #30363d; alignment: center">
@@ -27,36 +28,30 @@
                 <img src="img/brand4.png" alt="" class="img-fluid pointer w-100 "
                      onclick="document.location.href = location.origin + '/auto'">
             </div>
-            <% if (request.getAttribute("user") != null) {
-                if ("ADMIN".equals(role)) {
-            %>
+            <% if (account == null) {%>
+            <div class="col" align="right">
+                <a href="/auto/auth" class="btn btn-outline-success pull-right mt-5" type="submit">Login or
+                    Registration</a>
+            </div>
+            <% } else if (AuthService.isAdmin(account)) {%>
             <div class="col" align="right">
                 <button class="btn btn-outline-success pull-right mt-5" onclick=
                         "document.location.href = location.origin + '/auto/editDB.jsp'">Manage
                 </button>
                 <button class="btn btn-outline-success pull-right mt-5" onclick=
-                        "document.location.href = location.origin + '/auto/account.jsp'"><%=user%>
-                    <%--                    можно сделать список пользователей и управлять им--%>
+                        "document.location.href = location.origin + '/auto/account.jsp'"><%=account.getName()%>
                 </button>
                 <button class="btn btn-outline-success pull-right mt-5" onclick="logout()">Logout</button>
             </div>
-            <% } else {
-                System.out.println("NOT ADMIN");
-            %>
+            <% } else { %>
             <div class="col" align="right">
                 <button class="btn btn-outline-success pull-right mt-5" onclick=
                         "document.location.href = location.origin + '/auto/add.jsp'">Добавить объявление
                 </button>
                 <button class="btn btn-outline-success pull-right mt-5" onclick=
-                        "document.location.href = location.origin + '/auto/account.jsp'"><%=user%>
+                        "document.location.href = location.origin + '/auto/account.jsp'"><%=account.getName()%>
                 </button>
                 <button class="btn btn-outline-success pull-right mt-5" onclick="logout()">Logout</button>
-            </div>
-            <% }
-            } else { %>
-            <div class="col" align="right">
-                <a href="/auto/auth" class="btn btn-outline-success pull-right mt-5" type="submit">Login or
-                    Registration</a>
             </div>
             <% } %>
         </div>
@@ -65,8 +60,9 @@
     <div class="container mx-auto p-2 bg-secondary">
         <div class="form-group row">
             <div class="col">
-                <select class="form-control input-sm myselect" id="mark" onchange="loadModels(loadAds())">
-
+                <select class="form-control input-sm myselect" id="mark" onchange="
+                $('#model').val('')
+                loadModels(loadAds())">
                 </select>
             </div>
             <div class="col">
@@ -75,11 +71,13 @@
                 </select>
             </div>
             <div class="col">
-                <button class="btn btn-dark btn-outline-success" value="false" onclick="freshAd()" id="freshAd" >Показать свежие объявления
+                <button class="btn btn-dark btn-outline-success" value="false" onclick="freshAd()" id="freshAd">Показать
+                    свежие объявления
                 </button>
             </div>
             <div class="col">
-                <button class="btn btn-dark btn-outline-success active" value="true" onclick="withPhotos()" id="withPhotos" >Показать объявления с фото
+                <button class="btn btn-dark btn-outline-success active" value="true" onclick="withPhotos()"
+                        id="withPhotos">Показать объявления с фото
                 </button>
             </div>
         </div>

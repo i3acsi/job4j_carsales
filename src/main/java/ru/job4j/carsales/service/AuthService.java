@@ -2,9 +2,11 @@ package ru.job4j.carsales.service;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import ru.job4j.carsales.model.Account;
+import ru.job4j.carsales.model.Role;
 import ru.job4j.carsales.repo.Repo;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class AuthService {
     private static final String SALT = "DEFAULT_SALT";
@@ -25,6 +27,8 @@ public class AuthService {
             String passwordHash = encodePassword(password);
             if (passwordFromDB.equals(passwordHash)) {
                 req.getSession().setAttribute("user", account);
+                if (account.getRole().getName().equals("ADMIN"))
+                    req.getSession().setAttribute("role", "ADMIN");
                 result = true;
             }
         }
@@ -35,10 +39,19 @@ public class AuthService {
         String encodedPwd = encodePassword(password);
         phone = phone.replaceAll("[^0-9,]", "");
         Long telephone = Long.parseLong(phone);
-        return repo.create(Account.of(name, email, encodedPwd, telephone));
+        Account account = Account.of(name, email, encodedPwd, telephone);
+        if ("root@local.ru".equals(email))
+            account.setRole(Role.of("ADMIN"));
+        return repo.create(account);
     }
 
     public static boolean isAdmin(Account account) {
-        return (account.getRole().getName().equals("ADMIN"));
+        return (account != null && account.getRole().getName().equals("ADMIN"));
+    }
+
+    public static Account getLoggedInAccount(HttpServletRequest request) {
+        HttpSession hs = request.getSession();
+        return (Account) hs.getAttribute("user");
+
     }
 }

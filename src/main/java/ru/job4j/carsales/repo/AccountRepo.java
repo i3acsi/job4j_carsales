@@ -24,10 +24,19 @@ class AccountRepo {
     }
 
     Account findAccountById(Long id) {
-        return store.findById(id, Account.class);
+        return store.tx(session ->
+                (Account) session.createQuery(" select distinct a from Account a where a.id = :fId")
+//                        .setHint(QueryHints.HINT_PASS_DISTINCT_THROUGH, false)
+                        .setParameter("fId", id)
+                        .uniqueResult()
+        );
     }
 
     Account findAccountByEmail(String email) {
-        return store.findBy(email, "email", Account.class);
+        return store.tx(session ->
+                (Account) session.createQuery(" select distinct a from Account a where a.email = :fEmail")
+                        .setParameter("fEmail", email)
+                        .uniqueResult()
+        );
     }
 }

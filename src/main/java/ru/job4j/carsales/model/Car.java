@@ -6,14 +6,12 @@ import ru.job4j.carsales.dto.ModelDto;
 
 import javax.persistence.*;
 import java.util.Date;
-
-// У машины предполагается уникальный вин. Модель-марка, дата создания - могут быть устанолены только один раз
+import java.util.Objects;
 
 @Entity
 @Table(name = "j_car")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"vin", "model", "created"})
 @RequiredArgsConstructor(staticName = "of")
 public class Car {
     @Id
@@ -36,4 +34,22 @@ public class Car {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY", timezone = "Asia/Novosibirsk")
     @Column(updatable = false)
     private Date created;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        System.out.println(this.vin.equals(car.vin));
+        System.out.println(this.model.getMark().getName().equals(car.model.getMark().getName()));
+        System.out.println(this.model.getName().equals(car.model.getName()));
+        return this.vin.equals(car.vin)
+                && this.model.getMark().getName().equals(car.model.getMark().getName())
+                && this.model.getName().equals(car.model.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vin, model, created);
+    }
 }

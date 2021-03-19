@@ -23,7 +23,6 @@ class ModelRepo {
         return store.findById(id, Model.class);
     }
 
-
     @SuppressWarnings("unchecked")
     List<ModelDto> findModelsByMarkId(Long id) {
         return store.tx(session -> {
@@ -31,12 +30,5 @@ class ModelRepo {
             query.setParameter("mId", id);
             return query.list();
         });
-//        return store.tx(session -> {
-//            Query q = session.createQuery(
-//                    "select m from Mark m join fetch m.models where m.id = :id");
-//            q.setParameter("id", id);
-//            return  ((Mark) q.uniqueResult()).getModels();
-//        });
     }
-
 }

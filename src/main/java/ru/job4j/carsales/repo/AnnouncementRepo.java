@@ -4,9 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.job4j.carsales.dto.AnnouncementDto;
+import ru.job4j.carsales.model.Account;
 import ru.job4j.carsales.model.Announcement;
 import ru.job4j.carsales.model.Car;
+import ru.job4j.carsales.repo.filter.AdFilter;
 
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor(staticName = "of")
@@ -15,14 +19,31 @@ class AnnouncementRepo {
     private final Store store;
 
     @SuppressWarnings("unchecked")
-    List<Announcement> findAllAnnouncements(Filter filter) {
+    List<AnnouncementDto> findAllAnnouncements(AdFilter filter) {
         return store.tx(session -> {
-            Query query = session.createQuery(filter.doFilter());
-            filter.getParametersSet().forEach(query::setParameter);
+            Query query = session.createQuery(filter.buildFilterQuery());
+            filter.getParametersMap().forEach(query::setParameter);
             log.info(query.getQueryString());
             return query.list();
         });
     }
+
+    AnnouncementDto findAnnouncementById(Long id) {
+        return store.tx(session ->
+                (AnnouncementDto) session.createQuery(" select distinct a from AnnouncementDto a left join fetch a.photos where a.id = :fId")
+                        .setParameter("fId", id)
+                        .uniqueResult()
+        );
+    }
+
+    List<AnnouncementDto> findAnnouncementsOfAccount(Long accountId) {
+        return store.tx(session ->
+                session.createQuery(" select distinct a from AnnouncementDto a left join fetch a.photos where a.owner = :fId", AnnouncementDto.class)
+                        .setParameter("fId", accountId)
+                        .list()
+        );
+    }
+
 
     boolean create(Announcement announcement) {
         boolean result = false;
@@ -38,5 +59,21 @@ class AnnouncementRepo {
             }
         }
         return result;
+    }
+
+    public boolean tryCloseAd(Long accountId, Long announcementId) {
+        return store.tx(session -> {
+            Announcement a = session.get(Announcement.class, announcementId);
+            Account ac = a.getOwner();
+            System.out.println(ac);
+            if (!ac.getId().equals(accountId)) {
+                return false;
+            } else {
+                a.setActive(false);
+                a.setUpdated(new Date(System.currentTimeMillis()));
+                session.merge(a);
+                return true;
+            }
+        });
     }
 }

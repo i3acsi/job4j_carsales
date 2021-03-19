@@ -1,4 +1,4 @@
-package ru.job4j.carsales.repo;
+package ru.job4j.carsales.repo.filter;
 
 import lombok.Setter;
 
@@ -11,14 +11,20 @@ import java.util.StringJoiner;
 
 
 @Setter
-public class Filter {
+public class AdFilter implements Filter{
     private Long modelId = 0L;
     private Long markId = 0L;
     private boolean freshAd = false;
     private boolean withPhotos = false;
+    private boolean active = true;
 
-    public String doFilter() {
-        String sql = "select distinct a from Announcement a left join fetch a.photos ";
+    public String buildFilterQuery() {
+        String hql;
+        if (withPhotos) {
+            hql = "select distinct a from AnnouncementDto a join fetch a.photos ";
+        } else {
+            hql = "select distinct a from AnnouncementDto a left join fetch a.photos ";
+        }
         StringJoiner joiner = new StringJoiner(" and ");
         if (modelId != null && modelId > 0L) {
             joiner.add("a.car.model.id = :moId");
@@ -27,16 +33,16 @@ public class Filter {
         }
         if (freshAd)
             joiner.add("a.created > : date");
-        if (withPhotos)
-            joiner.add("size(a.photos) > 0");
+        if (active)
+            joiner.add("a.active = true");
         String filter = joiner.toString();
         if (!filter.isEmpty()) {
-            sql += " where " + filter;
+            hql += " where " + filter + " order by a.created ";
         }
-        return sql;
+        return hql;
     }
 
-    public Map<String, Object> getParametersSet(){
+    public Map<String, Object> getParametersMap(){
         Map<String, Object> result = new HashMap<>();
         if (modelId != null && modelId > 0L) {
             result.put("moId", modelId);

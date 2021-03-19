@@ -27,7 +27,7 @@ function addEngine() {
                 'engineName': engineName,
                 'enginePower': enginePower,
                 'fuel': fuel,
-                'engineVolume': engineVolume,
+                'engineVolume': engineVolume
             }
         }).done(function () {
             ok()

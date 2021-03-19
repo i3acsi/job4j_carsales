@@ -308,7 +308,7 @@
 
                 <div class="mb-3">
                     <button class="btn btn-dark btn-outline-success mt-2 pull-right" onclick="resumeAdd()">
-                        Разместитьобъявление
+                        Разместить объявление
                     </button>
                 </div>
             </div>
@@ -335,83 +335,49 @@
         let desc = $('#desc').val()
         let price = $('#price').val()
         let location = $('#location').val()
-        console.log("vin: " + vin
-            + ", modelId: " + modelId
-            + ", engineId: " + engineId
-            + ", transmissionId: " + transmissionId
-            + ", created: " + created
-            + ", run: " + run
-            + ", color: " + color
-            + ", desc: " + desc
-            + ", price: " + price
-            + ", location: " + location
-        )
-        if (validateAdd(vin, modelId, engineId, transmissionId, created, run, color, price, location)) {
-            console.log("url for fileds load : " + url)
-            $.post({
-                url: url,
-                data: {
-                    'action': 'addAd',
-                    'vin': vin,
-                    'modelId': modelId,
-                    'engineId': engineId,
-                    'transmissionId': transmissionId,
-                    'created': created,
-                    'run': run,
-                    'color': color,
-                    'desc': desc,
-                    'price': price,
-                    'location': location,
-                }
-            }).done(function () {
-                console.log('ok')
-                resumePics()
-                clearForm()
-                ok()
-            }).fail(function () {
-                error()
-            });
-        } else {
-            console.log('invalid')
-        }
-    }
+        let pics = document.getElementById("photo").files;
 
-    function resumePics() {
-        let userPic = document.getElementById("photo").files;
-        console.log("url for pics load : " + url)
-        if (userPic != null) {
-            let data = new FormData();
-            for (let k in userPic) {
-                data.append('datafile' + k, userPic[k]);
+        let data = new FormData();
+        let changed = false;
+
+        if (validateAdd(vin, modelId, engineId, transmissionId, created, run, color, price, location)) {
+            let json = JSON.stringify({
+                "vin": vin,
+                "modelId": modelId,
+                "engineId": engineId,
+                "transmissionId": transmissionId,
+                "created": created,
+                "run": run,
+                "color": color,
+                "desc": desc,
+                "price": price,
+                "location": location,
+            })
+            data.append('blob', new Blob([json], {type: 'application/json'}))
+            changed = true
+        }
+
+        if (pics) {
+            for (let k in pics) {
+                data.append('datafile' + k, pics[k]);
+                changed = true
             }
+        }
+
+        if (changed)
             $.post({
                 url: url,
                 data: data,
                 cache: false,
                 processData: false,
-                contentType: false
+                contentType: false,
+                async: false
             }).done(function () {
-                saveAd()
+                clearForm()
+                ok()
             }).fail(function () {
                 error()
             })
-        }
-    }
-
-    function saveAd(){
-        console.log("url for saveAd : " + url)
-
-        $.post({
-            url: url,
-            data: {
-                'action': 'saveAd',
-            }
-        }).done(function () {
-            clearForm()
-            ok()
-        }).fail(function () {
-            error()
-        });
     }
 
     $(document).ready(function () {

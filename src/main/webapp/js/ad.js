@@ -13,7 +13,6 @@ function loadAds(callback) {
     }
     let freshAd = $('#freshAd').val()
     let withPhotos = $('#withPhotos').val()
-    console.log(markId + ' ' + modelId + ' ' + freshAd + ' ' + withPhotos)
     $.get({
         url: location.origin + '/auto/car',
         data: {
@@ -32,7 +31,6 @@ function loadAds(callback) {
 }
 
 function loadAdSimple(json) {
-    console.log(json)
     let table = ''
     for (let k in json) {
         let adId = json[k]['id']
@@ -56,8 +54,58 @@ function loadAdSimple(json) {
     return table
 }
 
+function loadAdForMe(json) {
+    let table = ''
+    for (let k in json) {
+        let adId = json[k]['id']
+        let model = json[k]['car']['model']
+        let modelName = model['name']
+        let price = json[k]['price']
+        let photo = json[k]['photos']
+        let status = json[k]['active']
+        let btn = (status) ?
+            '<button class="btn btn-outline-success btn-small"  onclick="closeAd(' + adId + ')">Завершить</button>'
+            : '<button class="btn btn-outline-success btn-small disabled" ">Завершено</button>'
+
+        if (photo.length > 0) {
+            photo = photo[0]
+        } else {
+            photo = 'img/car.png'
+        }
+        table += '<tr>\n<th scope="row"> ' + k + '</th>\n'
+            + '<td class="pointer" onclick="watchAd(' + adId + ')">' + modelName + '</td>\n'
+            + '<td class="pointer" onclick="watchAd(' + adId + ')">' + price + '</td>\n'
+            + '<td>\n<img src="' + photo + '" class="img-fluid pointer" onclick="watchAd(' + adId + ')" '
+            + 'style=\"max-height: 100px; width: auto; display: inline-block\">'
+            + '</td>\n<td>' + btn + '</td>\n</tr>\n'
+    }
+    return table
+}
+
 function watchAd(adId) {
-    console.log(adId)
+    document.location.href = location.origin + '/auto/car?id=' + adId
+}
+
+function closeAd(adId) {
+    let data = new FormData()
+    let json = JSON.stringify({
+        "adId": adId
+    })
+    let url = location.origin + '/auto/car'
+    data.append('closeAd', new Blob([json], {type: 'application/json'}))
+    $.post({
+        url: url,
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        async: false
+    }).done(function () {
+        loadUserData()
+    }).fail(function () {
+        error()
+    });
+
 }
 
 function freshAd() {

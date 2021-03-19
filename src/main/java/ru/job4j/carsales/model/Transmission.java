@@ -11,16 +11,30 @@ import javax.persistence.*;
 @NoArgsConstructor
 @EqualsAndHashCode()
 @RequiredArgsConstructor(staticName = "of")
-@ToString(of = {"id", "automatic", "driveType"})
 public class Transmission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     @Column(name = "tm_id")
     private Long id;
+
     @NonNull
     private Boolean automatic;
+
     @NonNull
-    @Column (name = "drive_type")
+    @Column(name = "drive_type")
     private String driveType;
+
+    @Override
+    public String toString() {
+        String tm = (automatic) ? ("автомат ") : ("механика ");
+        String drive = "";
+        if ("FWD".equals(driveType))
+            drive = ", передний привод";
+        else if ("RWD".equals(driveType))
+            drive =  ", задний привод";
+        else if ("4WD".equals(driveType))
+            drive =  ", полный привод";
+        return tm + drive;
+    }
 }

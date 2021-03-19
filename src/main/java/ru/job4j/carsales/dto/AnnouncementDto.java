@@ -1,7 +1,10 @@
-package ru.job4j.carsales.model;
+package ru.job4j.carsales.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import ru.job4j.carsales.model.Car;
+import ru.job4j.carsales.model.Engine;
+import ru.job4j.carsales.model.Transmission;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,9 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode()
 @RequiredArgsConstructor(staticName = "of")
-public class Announcement {
+public class AnnouncementDto {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     @Column(name = "announcement_id")
     private Long id;
@@ -62,13 +65,12 @@ public class Announcement {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-dd HH:mm:ss", timezone = "Asia/Novosibirsk")
     private Date updated = new Date(System.currentTimeMillis());
 
-    @ElementCollection()
-    @CollectionTable(name = "photos", joinColumns = @JoinColumn(name = "announcement_id"))
-    @Column(name = "photo")
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name="photos", joinColumns=@JoinColumn(name="announcement_id"))
+    @Column(name="photo")
     private List<String> photos = new ArrayList<>();
 
     @NonNull
-    @ManyToOne
-    @JoinColumn(name = "account_id", updatable = false)
-    private Account owner;
+    @Column(name="account_id")
+    private Long owner;
 }
