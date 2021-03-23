@@ -1,6 +1,6 @@
 function loadTms() {
     $.get({
-        url: location.origin + '/auto/transmission',
+        url: getContextPath() +'/transmission',
     }).done(function (json) {
         // console.log(json)
         let link = parseJsonForTm(json)
@@ -15,7 +15,7 @@ function addTm() {
     let driveType = $('#driveType option:selected').val()
     console.log(tmType+ " " + driveType)
     $.post({
-        url: location.origin + '/auto/transmission',
+        url: getContextPath() +'/transmission',
         data: {
             'action' : 'addTm',
             'tmType': tmType,

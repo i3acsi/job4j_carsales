@@ -13,8 +13,9 @@ function loadAds(callback) {
     }
     let freshAd = $('#freshAd').val()
     let withPhotos = $('#withPhotos').val()
+    let url = getContextPath() +'/car'
     $.get({
-        url: location.origin + '/auto/car',
+        url: url,
         data: {
             'markId': markId,
             'modelId': modelId,
@@ -83,7 +84,7 @@ function loadAdForMe(json) {
 }
 
 function watchAd(adId) {
-    document.location.href = location.origin + '/auto/car?id=' + adId
+    document.location.href = getContextPath() +'/car?id=' + adId
 }
 
 function closeAd(adId) {
@@ -91,7 +92,7 @@ function closeAd(adId) {
     let json = JSON.stringify({
         "adId": adId
     })
-    let url = location.origin + '/auto/car'
+    let url = getContextPath() +'/car'
     data.append('closeAd', new Blob([json], {type: 'application/json'}))
     $.post({
         url: url,

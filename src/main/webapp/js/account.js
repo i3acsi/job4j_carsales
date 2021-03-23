@@ -11,7 +11,7 @@ function saveDataToAccount() {
     let location = document.getElementById("location").value;
     let oldLocation = document.getElementById("l_location").value;
     let password = document.getElementById("pwd").value;
-    let url = window.location.origin + '/auto/userInfo'
+    let url = getContextPath() +'/userInfo'
 
     let data = new FormData();
     let changed = false;
@@ -72,8 +72,9 @@ $("#photo").change(function () {
 
 // load userData from DB to fields on page
 function loadUserData() {
+    let url = getContextPath() +'/userInfo'
     $.get({
-        url: location.origin + '/auto/userInfo',
+        url: url
     }).done(function (list) {
         let json = list[1]
         let id = json['id']
@@ -110,6 +111,4 @@ function loadUserData() {
     }).fail(function () {
         console.log('ошибка загрузки данных')
     });
-
-
 }

@@ -1,6 +1,6 @@
 function loadEngines(callback) {
     $.get({
-        url: location.origin + '/auto/engine',
+        url: getContextPath() +'/engine',
     }).done(function (json) {
         // console.log(json)
         let link = parseJsonForEngine(json)
@@ -21,7 +21,7 @@ function addEngine() {
     if (validateEngine(engineName, enginePower, fuel, engineVolume)
     ) {
         $.post({
-            url: location.origin + '/auto/engine',
+            url: getContextPath() +'/engine',
             data: {
                 'action': 'addEngine',
                 'engineName': engineName,
@@ -45,7 +45,7 @@ function addEngine() {
 function loadEnginesOfModel() {
     let modelId = $('#model option:selected').val()
     $.get({
-        url: location.origin + '/auto/engine',
+        url: getContextPath() +'/engine',
         data: {
             'id': modelId
         }
@@ -95,9 +95,8 @@ function processEngineAndModel(del) {
         engineId = $('#engine option:selected').val()
     }
     let modelId = $('#model option:selected').val()
-    // console.log("modelId: " + modelId + " , engineId:" + engineId + " , action: " + action)
     $.post({
-        url: location.origin + '/auto/mark',
+        url: getContextPath() +'/mark',
         data: {
             'action': action,
             'engineId': engineId,

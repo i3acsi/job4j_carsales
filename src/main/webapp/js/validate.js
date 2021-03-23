@@ -15,17 +15,10 @@ function validateReg(name, email, phone, pwd, pwdConfirm) {
 }
 
 function confirmChanged(name, oldName, email, oldEmail, phone, oldPhone, location, oldLocation) {
-    // console.log(name !== oldName)
-    // console.log(email !== oldEmail)
-    // console.log(phone !== oldPhone)
-    // console.log(location !== oldLocation)
-    // let result = false
-    // result =
     return (name !== oldName)
         || (email !== oldEmail)
         || (phone !== oldPhone)
         || (location !== oldLocation)
-
 }
 
 function validateUpdateAccount(name, oldName, email, oldEmail, phone, oldPhone, location, oldLocation, pwd) {
@@ -147,4 +140,9 @@ function isLocation(value) {
         errorT("Название города должно быть длиннее 3 символов.")
         return false
     }
+}
+
+function getContextPath() {
+    return location.origin
+    // return location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 }

@@ -6,13 +6,15 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://ec2-23-21-229-200.compute-1.amazonaws.com:5432/d1i3htf9t09ujk</property>
-        <property name="connection.username">gzmpgqccwdwzgl</property>
-        <property name="connection.password">5a20f14703989c0d84bb74c0ef92855859dda4480401b2c0ff2f69f190a5452d</property>
 
-        <!--        <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/auto</property>-->
-        <!--        <property name="hibernate.connection.username">postgres</property>-->
-        <!--        <property name="hibernate.connection.password">password</property>-->
+        <property name="connection.url">${DATASOURCE_URL}</property>
+        <property name="connection.username">${DATASOURCE_USERNAME}</property>
+        <property name="connection.password">${SPRING_DATASOURCE_PASSWORD}</property>
+<!---->
+<!--        <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/auto</property>-->
+<!--        <property name="hibernate.connection.username">postgres</property>-->
+<!--        <property name="hibernate.connection.password">password</property>-->
+
         <property name="hibernate.connection.pool_size">3</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.hbm2ddl.auto">update</property>

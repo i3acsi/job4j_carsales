@@ -1,7 +1,7 @@
 function loadMarks(callback) {
     let link = '<option disabled selected>Марка</option>\n'
     $.get({
-        url: location.origin + '/auto/mark',
+        url: getContextPath() +'/mark',
     }).done(function (json) {
         for (let k in json) {
             let id = parseInt(json[k]['id'])
@@ -20,7 +20,7 @@ function addMark() {
     let markName = $('#markName').val()
     if (markName.length > 0) {
         $.post({
-            url: location.origin + '/auto/mark',
+            url: getContextPath() +'/mark',
             data: {
                 'action': 'addMark',
                 'markName': markName

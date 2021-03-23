@@ -1,6 +1,3 @@
-// import {validateReg, validateLogin} from "./validate";
-// import {errorT, error, ok, okT} from "./hint";
-
 function clearForm() {
     document.getElementById("email").value = "";
     document.getElementById("password").value = "";
@@ -16,7 +13,7 @@ function login() {
     const password = $('#password').val()
     if (validateLogin(email, password)) {
         $.post({
-            url: location.origin + '/auth',
+            url: getContextPath() +'/auth',
             data: {
                 "action": 'login',
                 "email": email,
@@ -24,7 +21,7 @@ function login() {
             }
         }).done(function () {
             console.log("login - ok")
-            document.location.href = location.origin
+            document.location.href = getContextPath()
         }).fail(function () {
             console.log("login - fail")
             errorT("Неверный логин или пароль")
@@ -40,7 +37,7 @@ function reg() {
     const passwordConfirm = $('#newPWDConfirm').val()
     if (validateReg(newPhone, newEmail, newPhone, newPassword, passwordConfirm)) {
         $.post({
-            url: location.origin + '/auth',
+            url: getContextPath() +'/auth',
             data: {
                 "action": 'reg',
                 "name": newName,

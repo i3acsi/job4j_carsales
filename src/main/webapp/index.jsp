@@ -21,35 +21,38 @@
 <%
     Account account = AuthService.getLoggedInAccount(request);
 %>
+<script>
+    let url = getContextPath();
+</script>
 <div class="container ">
     <nav class="navbar navbar-fixed-top navbar-dark boarded" style="background-color:  #30363d; alignment: center">
         <div class="container">
             <div class="col">
                 <img src="img/brand4.png" alt="" class="img-fluid pointer w-100 "
-                     onclick="document.location.href = location.origin + '/auto'">
+                     onclick="document.location.href = getContextPath()">
             </div>
             <% if (account == null) {%>
             <div class="col" align="right">
-                <a href="/auto/auth" class="btn btn-outline-success pull-right mt-5" type="submit">Login or
+                <a href='logreg.jsp' class="btn btn-outline-success pull-right mt-5" type="submit">Login or
                     Registration</a>
             </div>
             <% } else if (AuthService.isAdmin(account)) {%>
             <div class="col" align="right">
                 <button class="btn btn-outline-success pull-right mt-5" onclick=
-                        "document.location.href = location.origin + '/auto/editDB.jsp'">Manage
+                        "document.location.href = getContextPath() +'/editDB.jsp'">Manage
                 </button>
                 <button class="btn btn-outline-success pull-right mt-5" onclick=
-                        "document.location.href = location.origin + '/auto/account.jsp'"><%=account.getName()%>
+                        "document.location.href = getContextPath() +'/account.jsp'"><%=account.getName()%>
                 </button>
                 <button class="btn btn-outline-success pull-right mt-5" onclick="logout()">Logout</button>
             </div>
             <% } else { %>
             <div class="col" align="right">
                 <button class="btn btn-outline-success pull-right mt-5" onclick=
-                        "document.location.href = location.origin + '/auto/add.jsp'">Добавить объявление
+                        "document.location.href = getContextPath() +'/add.jsp'">Добавить объявление
                 </button>
                 <button class="btn btn-outline-success pull-right mt-5" onclick=
-                        "document.location.href = location.origin + '/auto/account.jsp'"><%=account.getName()%>
+                        "document.location.href = getContextPath() +'/account.jsp'"><%=account.getName()%>
                 </button>
                 <button class="btn btn-outline-success pull-right mt-5" onclick="logout()">Logout</button>
             </div>
@@ -115,9 +118,9 @@
 
     function logout() {
         $.get({
-            url: location.origin + '/auto/auth'
+            url: getContextPath() + '/auth'
         })
-        location.href = location.origin + '/auto'
+        location.href = getContextPath()
     }
 </script>
 </body>

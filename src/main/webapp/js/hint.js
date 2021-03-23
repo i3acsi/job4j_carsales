@@ -17,5 +17,3 @@ function okT(text) {
     document.getElementById("hint").textContent = ''
     document.getElementById("hintSuccess").textContent = text
 }
-
-// export {errorT, error, ok, okT}

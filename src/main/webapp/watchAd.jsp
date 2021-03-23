@@ -53,7 +53,7 @@
         <div class="container">
             <div class="col-lg">
                 <img src="img/brand4.png" alt="" class="img-fluid pointer w-100 "
-                     onclick="document.location.href = location.origin + '/auto'">
+                     onclick="document.location.href = getContextPath()">
             </div>
             <div class="col" align="right">
                 <span class="text-danger " id="hint"></span>
@@ -188,7 +188,7 @@
 
     function watchContact(id) {
         $.get({
-            url: location.origin + '/auto/userInfo',
+            url: getContextPath() +'/userInfo',
             data: {'id': id},
             dataType: "json"
         }).done(function (json) {
@@ -209,9 +209,9 @@
 
     function logout() {
         $.get({
-            url: location.origin + '/auto/auth'
+            url: getContextPath() +'/auth'
         })
-        location.href = location.origin + '/auto'
+        location.href = getContextPath()
     }
 </script>
 </body>

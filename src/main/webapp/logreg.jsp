@@ -21,7 +21,7 @@
         <div class="container">
             <div class="col">
                 <img src="img/brand4.png" alt="" class="img-fluid pointer w-100 "
-                     onclick="document.location.href = location.origin + '/auto'">
+                     onclick="document.location.href = getContextPath()">
             </div>
             <div class="col">
                 <span class="text-danger " id="hint"></span>

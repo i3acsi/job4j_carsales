@@ -3,7 +3,7 @@ function loadModels(callback) {
     let markId = select.options[select.selectedIndex].value;
     let link = '<option disabled selected>Модель</option>\n'
     $.get({
-        url: location.origin + '/auto/mark',
+        url: getContextPath() +'/mark',
         data: {
             'id': markId
         }
@@ -31,7 +31,7 @@ function addModel() {
     let markId = select.options[select.selectedIndex].value;
     if (modelName.length > 0) {
         $.post({
-            url: location.origin + '/auto/mark',
+            url: getContextPath() +'/mark',
             data: {
                 'action': 'addModel',
                 'modelName': modelName,
