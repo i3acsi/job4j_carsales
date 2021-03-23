@@ -16,7 +16,7 @@ function login() {
     const password = $('#password').val()
     if (validateLogin(email, password)) {
         $.post({
-            url: location.origin + '/auto/auth',
+            url: location.origin + '/auth',
             data: {
                 "action": 'login',
                 "email": email,
@@ -24,7 +24,7 @@ function login() {
             }
         }).done(function () {
             console.log("login - ok")
-            document.location.href = location.origin + '/auto'
+            document.location.href = location.origin
         }).fail(function () {
             console.log("login - fail")
             errorT("Неверный логин или пароль")
@@ -40,7 +40,7 @@ function reg() {
     const passwordConfirm = $('#newPWDConfirm').val()
     if (validateReg(newPhone, newEmail, newPhone, newPassword, passwordConfirm)) {
         $.post({
-            url: location.origin + '/auto/auth',
+            url: location.origin + '/auth',
             data: {
                 "action": 'reg',
                 "name": newName,
